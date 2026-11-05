@@ -1,175 +1,166 @@
 "use client"
 
-import NextImage from "next/image"
-import { motion, useScroll, useTransform } from "framer-motion"
-import { ScrollReveal } from "@/components/animations/scroll-reveal"
-import { stats } from "@/lib/constants"
+import Image from "next/image"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import {
+  Sparkles,
+  Award,
+  CheckCircle,
+  MapPin,
+  Heart,
+  Instagram,
+  ArrowUpRight,
+} from "lucide-react"
+import { stats, salonDetails } from "@/lib/constants"
 
 export function About() {
-  const { scrollYProgress } = useScroll();
-  const xTranslate = useTransform(scrollYProgress, [0, 1], [-200, 200]);
+  const highlights = [
+    "Internationally Certified Hair Dresser & Stylist",
+    "Permanent Makeup-6D & Microblading Specialist",
+    "Expert Eyelash Extensions & Keratin Lash Lifts",
+    "Custom Gel, Acrylic & Gold Chrome Nail Art",
+    "Premium Hair Smoothing, Botox & Balayage Care",
+  ]
 
   return (
-    <section id="about" className="py-32 bg-background relative overflow-hidden">
-      {/* Immersive background text */}
-      <motion.div
-        style={{ x: xTranslate }}
-        className="absolute bottom-1/4 left-0 text-[12rem] font-bold text-foreground/[0.02] dark:text-white/[0.01] whitespace-nowrap pointer-events-none select-none tracking-widest font-display"
-      >
-        HERITAGE ARTISTRY QUALITY
-      </motion.div>
+    <section
+      id="about"
+      className="py-20 md:py-32 bg-[#0C090C] text-white relative overflow-hidden"
+    >
+      {/* Background ambient lighting */}
+      <div className="absolute top-20 left-10 w-80 h-80 bg-[#DF6882]/10 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* Background decorative elements */}
-      <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-beauty-pink/5 blur-3xl pointer-events-none" />
-
-      <div className="section-container">
-        <ScrollReveal>
-          <div className="section-header">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="section-tag"
-            >
-              About LUXE
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="section-title"
-            >
-              Crafting Beauty Through
-              <br />
-              <span className="text-gradient-aurora">Artistry & Innovation</span>
-            </motion.h2>
-          </div>
-        </ScrollReveal>
-
-        {/* Improved Alignment - Vertical Centering */}
-        <div className="asym-grid items-center mb-24">
-          <ScrollReveal direction="left" className="asym-left">
-            <motion.div
-              whileHover={{ scale: 1.02, y: -10 }}
-              className="relative h-[600px] glass-card overflow-hidden group shadow-elegant"
-            >
-              <NextImage
-                src="/images/luxury_salon_interior.png"
-                alt="LUXE Salon Interior"
-                fill
-                className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10" />
-              <div className="absolute bottom-10 left-10 text-white z-20">
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <p className="text-sm font-medium tracking-[0.3em] mb-3 text-accent">ELEGANCE REDEFINED</p>
-                  <h3 className="text-3xl font-display font-semibold mb-2 text-white">Our Sanctuary</h3>
-                  <p className="text-sm text-white/70 max-w-xs">A space designed for your ultimate comfort and transformation.</p>
-                </motion.div>
-              </div>
-              
-              {/* Floating accent element */}
-              <div className="absolute top-6 right-6 z-20">
-                <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-md">
-                  <div className="w-12 h-12 rounded-full border border-accent/30 animate-spin-slow" />
-                </div>
-              </div>
-            </motion.div>
-          </ScrollReveal>
-
-          <ScrollReveal direction="right" className="asym-right">
-            <div className="space-y-8 pt-12">
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="inline-block"
-              >
-                <h4 className="font-display text-4xl md:text-5xl font-semibold mb-6">
-                  Our Philosophy
-                </h4>
-                <div className="w-20 h-1 bg-gradient-to-r from-accent to-beauty-pink rounded-full" />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="space-y-6"
-              >
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  At LUXE, we believe beauty is an art form. Every client who walks through our doors is a canvas, and our stylists are the artists. We use only the finest eco-friendly products and cutting-edge techniques to ensure your hair looks and feels its absolute best.
-                </p>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  Our commitment to excellence has earned us over 50 industry awards and the loyalty of thousands of clients who trust us with their most important looks.
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="flex items-center gap-6 pt-4"
-              >
-                <div className="flex flex-col items-center">
-                  <span className="text-3xl font-display font-bold text-accent">50+</span>
-                  <span className="text-sm text-muted-foreground">Awards</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="text-3xl font-display font-bold text-accent">14+</span>
-                  <span className="text-sm text-muted-foreground">Years</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="text-3xl font-display font-bold text-accent">15</span>
-                  <span className="text-sm text-muted-foreground">Stylists</span>
-                </div>
-              </motion.div>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* Enhanced Stats Section */}
-        <ScrollReveal>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Column: Real Salon Interior Image */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="glass-card p-12 md:p-16"
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-5 relative"
           >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="text-center group cursor-default"
-                >
-                  <motion.div
-                    className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-gradient-gold mb-3 group-hover:animate-pulse-soft"
-                  >
-                    {stat.value}
-                  </motion.div>
-                  <p className="text-muted-foreground text-sm md:text-base font-light tracking-wide">
-                    {stat.label}
-                  </p>
-                </motion.div>
-              ))}
+            <div className="relative h-[420px] sm:h-[500px] rounded-[2.5rem] overflow-hidden border border-white/15 shadow-2xl group">
+              <Image
+                src="/images/instyle/salon-space-interior.jpg"
+                alt="INSTYLE Salon Interior with Arched Vanity Mirrors"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+
+              {/* Float Badge 1: Location */}
+              <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-xs text-white/90 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-[#DF6882]" />
+                <span>DC Court Junction, Dimapur</span>
+              </div>
+
+              {/* Bottom Card Overlay */}
+              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-[#141014]/90 backdrop-blur-xl border border-white/10 text-white">
+                <div className="flex items-center gap-2 mb-1">
+                  <Award className="w-4 h-4 text-[#DF6882]" />
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-[#DF6882]">
+                    Internationally Certified
+                  </span>
+                </div>
+                <h4 className="font-display text-lg font-bold">
+                  INSTYLE Hair & Beauty Sanctuary
+                </h4>
+                <p className="text-xs text-white/70 font-light mt-0.5">
+                  Arched vanity mirrors, modern sage aesthetics & sanitized tools.
+                </p>
+              </div>
+            </div>
+
+            {/* Accent Floating Pill on side */}
+            <div className="absolute -bottom-5 -right-3 hidden sm:flex items-center gap-2 py-2.5 px-4 rounded-2xl bg-[#DF6882] text-white shadow-xl text-xs font-bold">
+              <Heart className="w-4 h-4 fill-white" />
+              <span>Personalized Beauty</span>
             </div>
           </motion.div>
-        </ScrollReveal>
+
+          {/* Right Column: Story & Philosophy */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-7 space-y-6"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#DF6882] text-xs font-semibold uppercase tracking-[0.25em]">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>About INSTYLE</span>
+            </div>
+
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+              Where Precision Artistry Meets{" "}
+              <span className="text-gradient-rose">Personalized Radiance</span>
+            </h2>
+
+            <p className="text-white/75 text-sm sm:text-base font-light leading-relaxed">
+              Located conveniently at **DC Court Junction in Dimapur**, **INSTYLE
+              Hair & Beauty Salon** is a premier destination for tailored
+              hairdressing, precision permanent makeup, lash artistry, and luxury
+              nail design.
+            </p>
+
+            <p className="text-white/75 text-sm sm:text-base font-light leading-relaxed">
+              Led by an **internationally certified stylist**, we specialize in
+              bringing out your natural glow with precision 6D microblading,
+              deep keratin hair smoothing, customized balayage tones, and hygienic
+              nail enhancements that turn heads.
+            </p>
+
+            {/* Bullet Highlights */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+              {highlights.map((item) => (
+                <div key={item} className="flex items-start gap-2.5">
+                  <div className="w-5 h-5 rounded-full bg-[#DF6882]/20 border border-[#DF6882]/40 flex items-center justify-center text-[#DF6882] shrink-0 mt-0.5">
+                    <CheckCircle className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-white/85 font-medium">
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Stats Row */}
+            <div className="pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {stats.map((s) => (
+                <div key={s.id} className="space-y-1">
+                  <span className="font-display text-2xl sm:text-3xl font-bold text-white block">
+                    {s.value}
+                  </span>
+                  <span className="text-[11px] sm:text-xs text-white/60 font-light block leading-tight">
+                    {s.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Instagram Follow Row */}
+            <div className="pt-2 flex items-center gap-4">
+              <a
+                href={salonDetails.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-600/30 via-pink-600/30 to-rose-600/30 border border-pink-500/30 hover:border-pink-500 text-white text-xs font-semibold transition-all group"
+              >
+                <Instagram className="w-4 h-4 text-pink-400 group-hover:scale-110 transition-transform" />
+                <span>@{salonDetails.instagramHandle}</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-white/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+
+              <span className="text-xs text-white/50">
+                785 posts • 1,015+ followers
+              </span>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   )

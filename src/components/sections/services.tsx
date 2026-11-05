@@ -1,165 +1,209 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
-import { ScrollReveal } from "@/components/animations/scroll-reveal"
-import { services } from "@/lib/constants"
-import { Scissors, Palette, Sparkles, Wand2, Wind, Heart, ArrowRight, Leaf, Star, Lock, Coffee } from "lucide-react"
-
-const iconMap: Record<string, React.ElementType> = {
-  "✂️": Scissors,
-  "🎨": Palette,
-  "💆‍♀️": Sparkles,
-  "💄": Wand2,
-  "💨": Wind,
-  "💍": Heart,
-}
+import { useState } from "react"
+import Image from "next/image"
+import { motion, AnimatePresence } from "framer-motion"
+import {
+  MessageCircle,
+  ArrowRight,
+  Clock,
+  Sparkles,
+  Check,
+  Star,
+} from "lucide-react"
+import { services, serviceCategories, salonDetails, ServiceItem } from "@/lib/constants"
+import { WhatsAppBookingModal } from "@/components/ui/whatsapp-booking-modal"
 
 export function Services() {
-  const { scrollYProgress } = useScroll();
-  const xTranslate = useTransform(scrollYProgress, [0.1, 0.5], [200, -400]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("All")
+  const [activeBookingServiceId, setActiveBookingServiceId] = useState<string | null>(null)
+
+  const filteredServices =
+    selectedCategory === "All"
+      ? services
+      : services.filter((s) => s.category === selectedCategory)
+
+  const handleQuickWhatsApp = (service: ServiceItem, e: React.MouseEvent) => {
+    e.stopPropagation()
+    const message = `Hi INSTYLE, I would like to book an appointment for *${service.title}* (${service.price}).\nLocation: DC Court Junction, Dimapur.`
+    const url = `https://wa.me/${salonDetails.whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`
+    window.open(url, "_blank")
+  }
 
   return (
-    <section id="services" className="py-32 md:py-48 bg-background dark:bg-black relative overflow-hidden transition-colors duration-1000">
-      {/* Immersive background text */}
-      <motion.div
-        style={{ x: xTranslate, opacity: 0.03 }}
-        className="absolute top-1/4 left-0 text-[12rem] md:text-[20rem] font-bold text-foreground dark:text-white whitespace-nowrap pointer-events-none select-none tracking-[0.1em] font-display"
+    <>
+      <section
+        id="services"
+        className="py-20 md:py-32 bg-[#0C090C] text-white relative overflow-hidden"
       >
-        CURATED EXCELLENCE ARTISTRY
-      </motion.div>
+        {/* Ambient lighting glows */}
+        <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-[#DF6882]/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-10 left-0 w-[450px] h-[450px] bg-[#D4AF37]/5 rounded-full blur-[130px] pointer-events-none" />
 
-      {/* Modern background accents */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen pointer-events-none" />
-      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-beauty-pink/5 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-overlay pointer-events-none" />
-
-      <div className="section-container relative z-10">
-        <ScrollReveal>
-          <div className="section-header !mb-32 text-left md:text-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+          {/* Section Header matching Mockup Screen 2 */}
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full bg-accent/5 border border-accent/20 backdrop-blur-sm self-start md:self-center"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#DF6882]/10 border border-[#DF6882]/30 text-[#DF6882] text-xs font-semibold uppercase tracking-[0.25em] mb-4"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              <span className="text-accent font-medium text-[10px] uppercase tracking-[0.4em]">The Luxe Experience</span>
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Full Service Beauty Bar</span>
             </motion.div>
 
             <motion.h2
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="section-title !text-left md:!text-center lg:text-7xl xl:text-8xl text-foreground dark:text-white"
+              className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-3"
             >
-              Our Masterful
-              <br />
-              <span className="text-gradient-aurora italic font-bold">Artistry & Care</span>
+              Our <span className="text-gradient-rose">Services</span>
             </motion.h2>
 
             <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 1 }}
-              className="section-description !text-left md:!text-center !text-muted-foreground/80 max-w-2xl pt-8 leading-relaxed"
+              className="text-white/70 text-sm sm:text-base md:text-lg font-light leading-relaxed"
             >
-              Discover a sanctuary where innovation meets relaxation. Our bespoke services are designed to enhance your natural beauty while providing a moment of profound tranquility.
+              Complete hair and beauty solutions under one roof.
             </motion.p>
           </div>
-        </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-          {services.map((service, index) => {
-            const Icon = iconMap[service.icon as string] || Scissors;
-            return (
-              <ScrollReveal key={service.id} delay={index * 0.1}>
-                <motion.div
-                  whileHover={{ y: -10 }}
-                  className="group relative h-full flex flex-col p-10 rounded-[3rem] bg-white/[0.02] dark:bg-zinc-900/40 border border-white/10 dark:border-white/[0.05] hover:border-accent/40 hover:bg-white/[0.05] dark:hover:bg-zinc-800/60 transition-all duration-700 backdrop-blur-3xl overflow-hidden shadow-elegant"
+          {/* Category Filter Pills (matching Screen 2) */}
+          <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-4 mb-8 sm:mb-12 no-scrollbar px-2">
+            {serviceCategories.map((category) => {
+              const isActive = selectedCategory === category
+              return (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 shrink-0 cursor-pointer min-h-[44px] ${
+                    isActive
+                      ? "bg-[#DF6882] text-white shadow-lg shadow-[#DF6882]/30 scale-105"
+                      : "bg-[#181318] text-white/70 hover:text-white border border-white/10 hover:border-white/20"
+                  }`}
                 >
-                  {/* Subtle Gradient Glow Background */}
-                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-accent/10 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                  {category}
+                </button>
+              )
+            })}
+          </div>
 
-                  {/* Category & Icon */}
-                  <div className="flex justify-between items-start mb-12 relative z-10">
-                    <div className="p-4 rounded-2xl bg-accent/5 border border-accent/10 group-hover:bg-accent/10 group-hover:border-accent/30 transition-all duration-500 group-hover:animate-float">
-                      <Icon aria-hidden="true" className="w-7 h-7 text-accent group-hover:scale-110 transition-transform duration-500" strokeWidth={1.2} />
+          {/* Services Cards Grid (matching Mockup Screen 2) */}
+          <motion.div
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"
+          >
+            <AnimatePresence>
+              {filteredServices.map((service, index) => (
+                <motion.div
+                  layout
+                  key={service.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  onClick={() => setActiveBookingServiceId(service.id)}
+                  className="group relative rounded-3xl bg-[#141014]/85 border border-white/10 hover:border-[#DF6882]/50 p-4 sm:p-5 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-[#DF6882]/10 flex flex-col justify-between cursor-pointer"
+                >
+                  <div>
+                    {/* Image and Badges */}
+                    <div className="relative w-full h-48 sm:h-52 rounded-2xl overflow-hidden mb-4 bg-[#1C161C]">
+                      <Image
+                        src={service.image}
+                        alt={service.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                      {/* Category Badge */}
+                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-semibold text-white/90">
+                        {service.category}
+                      </div>
+
+                      {/* Popular / Duration Badge */}
+                      {service.popular && (
+                        <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-[#DF6882] text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-md">
+                          <Star className="w-3 h-3 fill-white" />
+                          <span>Popular</span>
+                        </div>
+                      )}
+
+                      {/* Duration Tag */}
+                      {service.duration && (
+                        <div className="absolute bottom-3 left-3 flex items-center gap-1 text-[11px] text-white/80 bg-black/50 backdrop-blur-sm px-2.5 py-0.5 rounded-full">
+                          <Clock className="w-3 h-3 text-[#DF6882]" />
+                          <span>{service.duration}</span>
+                        </div>
+                      )}
                     </div>
-                    <span className="text-[10px] uppercase tracking-[0.25em] text-foreground dark:text-white/70 font-semibold group-hover:text-accent group-hover:tracking-[0.35em] transition-all duration-500">
-                      {service.category}
-                    </span>
-                  </div>
 
-                  {/* Content */}
-                  <div className="space-y-4 relative z-10">
-                    <h3 className="font-display text-4xl font-semibold text-foreground dark:text-white leading-tight">
+                    {/* Title & Description */}
+                    <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-2 group-hover:text-[#F4A6B8] transition-colors leading-snug">
                       {service.title}
                     </h3>
-                    <p className="text-muted-foreground font-light leading-relaxed text-lg line-clamp-3 group-hover:text-foreground/70 transition-colors duration-500">
+                    <p className="text-white/65 text-xs sm:text-sm font-light leading-relaxed mb-4 line-clamp-2">
                       {service.description}
                     </p>
                   </div>
 
-                  {/* Footer */}
-                  <div className="mt-auto pt-12 flex items-end justify-between relative z-10">
-                    <div className="space-y-1">
-                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground/70 font-bold">Investment</span>
-                      <p className="font-display text-3xl font-bold tracking-tight text-accent">
+                  {/* Pricing & WhatsApp Booking Action */}
+                  <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-3 mt-auto">
+                    <div>
+                      <span className="text-[10px] uppercase tracking-wider text-white/50 block">
+                        Price
+                      </span>
+                      <span className="font-display text-lg sm:text-xl font-bold text-white group-hover:text-[#DF6882] transition-colors flex items-center gap-1">
                         {service.price}
-                      </p>
+                        <ArrowRight className="w-3.5 h-3.5 text-white/40 group-hover:translate-x-0.5 transition-transform" />
+                      </span>
                     </div>
 
+                    {/* WhatsApp Book Now Button (as in Mockup Screen 2) */}
                     <button
-                      className="group/btn flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground dark:text-white hover:text-accent transition-colors"
+                      onClick={(e) => handleQuickWhatsApp(service, e)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#DF6882] to-[#C2455F] hover:from-[#E67891] hover:to-[#CE4E68] shadow-md shadow-[#DF6882]/25 active:scale-95 transition-all cursor-pointer min-h-[40px]"
+                      aria-label={`Book ${service.title} on WhatsApp`}
                     >
-                      <span className="relative">
-                        Explore
-                        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent group-hover/btn:w-full transition-all duration-500" />
-                      </span>
-                      <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                      <MessageCircle className="w-3.5 h-3.5 fill-current" />
+                      <span>Book Now</span>
                     </button>
                   </div>
-
-                  {/* Decorative corner accent */}
-                  <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-accent/0 group-hover:border-accent/20 rounded-tr-2xl transition-all duration-700" />
                 </motion.div>
-              </ScrollReveal>
-            )
-          })}
-        </div>
-
-        {/* Improved Feature Highlights Grid */}
-        <ScrollReveal delay={0.3}>
-          <div className="mt-32 md:mt-48 relative p-12 md:p-16 rounded-[4rem] overflow-hidden border border-white/10 dark:border-white/[0.08] shadow-2xl dark:bg-white/[0.03]">
-            {/* Background Texture */}
-            <div className="absolute inset-0 bg-white/[0.02] dark:bg-white/[0.02] backdrop-blur-3xl" />
-
-            <div className="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
-              {[
-                { label: "Eco-Friendly Products", icon: Leaf, value: "Sustainable Philosophy" },
-                { label: "Master Stylists", icon: Star, value: "Decade of Experience" },
-                { label: "Private Appointments", icon: Lock, value: "Absolute Discretion" },
-                { label: "Signature Drinks", icon: Coffee, value: "Relaxation Rituals" },
-              ].map((feature, i) => (
-                <div key={i} className="flex flex-col items-center md:items-start text-center md:text-left space-y-5 group cursor-default">
-                  <div className="p-4 rounded-full bg-accent/5 border border-accent/10 group-hover:bg-accent/10 group-hover:scale-110 transition-all duration-500">
-                    <feature.icon className="w-8 h-8 text-accent/80" strokeWidth={1} />
-                  </div>
-                  <div className="space-y-1.5">
-                    <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-accent">
-                      {feature.label}
-                    </h4>
-                    <p className="text-muted-foreground text-xs font-light">
-                      {feature.value}
-                    </p>
-                  </div>
-                </div>
               ))}
-            </div>
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Quick Notice */}
+          <div className="mt-12 text-center">
+            <p className="text-xs sm:text-sm text-white/50">
+              Need a personalized package or bridal consultation?{" "}
+              <button
+                onClick={() => setActiveBookingServiceId(services[0].id)}
+                className="text-[#DF6882] hover:underline font-semibold ml-1 cursor-pointer"
+              >
+                Chat with our master stylist on WhatsApp →
+              </button>
+            </p>
           </div>
-        </ScrollReveal>
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {/* Booking Modal */}
+      {activeBookingServiceId && (
+        <WhatsAppBookingModal
+          isOpen={!!activeBookingServiceId}
+          onClose={() => setActiveBookingServiceId(null)}
+          initialServiceId={activeBookingServiceId}
+        />
+      )}
+    </>
   )
 }

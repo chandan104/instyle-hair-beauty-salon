@@ -1,137 +1,205 @@
 "use client"
 
-import dynamic from "next/dynamic"
-import { motion } from "framer-motion"
+import { useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
-import { useParallax } from "@/hooks/use-parallax"
-
-const Particles = dynamic(() => import("@/components/animations/particles").then(mod => mod.Particles), { ssr: false })
-const AuroraBackground = dynamic(() => import("@/components/animations/aurora-bg").then(mod => mod.AuroraBackground), { ssr: false })
-const OrganicShapes = dynamic(() => import("@/components/animations/organic-shapes").then(mod => mod.OrganicShapes), { ssr: false })
+import { motion } from "framer-motion"
+import {
+  MessageCircle,
+  Play,
+  MapPin,
+  Scissors,
+  Sparkles,
+  Eye,
+  Heart,
+  ChevronDown,
+  Clock,
+  ShieldCheck,
+} from "lucide-react"
+import { salonDetails } from "@/lib/constants"
+import { BorderBeam } from "@/components/ui/border-beam"
+import { WhatsAppBookingModal } from "@/components/ui/whatsapp-booking-modal"
 
 export function Hero() {
-  const parallaxOffset = useParallax(-0.3)
+  const [isBookingOpen, setIsBookingOpen] = useState(false)
+
+  const quickCategories = [
+    { label: "Hair", icon: Scissors, href: "#services?category=Hair" },
+    { label: "Skin", icon: Sparkles, href: "#services?category=Skin" },
+    { label: "Nails", icon: Heart, href: "#services?category=Nails" },
+    { label: "Lashes", icon: Eye, href: "#services?category=Lashes" },
+  ]
+
+  const handleWhatsAppDirect = () => {
+    const url = `https://wa.me/${salonDetails.whatsappNumber}?text=${encodeURIComponent(
+      "Hi INSTYLE, I would like to book an appointment."
+    )}`
+    window.open(url, "_blank")
+  }
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      {/* Multiple background layers for depth */}
-      <motion.div
-        style={{ y: parallaxOffset, willChange: "transform" }}
-        className="absolute inset-0 bg-gradient-to-br from-background via-muted/50 to-background dark:from-black dark:via-zinc-900 dark:to-zinc-950"
-      />
-
-      {/* Aurora gradient mesh background */}
-      <AuroraBackground />
-
-      {/* Organic floating shapes */}
-      <OrganicShapes />
-
-      {/* Enhanced particles animation */}
-      <Particles />
-
-      {/* Content with better spacing and typography */}
-      <div className="relative z-10 section-container text-center text-foreground max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="space-y-8"
-        >
-          {/* Elegant tag / Glass Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-elegant mb-2"
-          >
-            <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-            <span className="text-accent font-medium text-xs md:text-sm uppercase tracking-[0.4em]">Premium Beauty Studio</span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="font-display text-7xl md:text-8xl lg:text-[10vw] xl:text-[12vw] font-bold leading-none mb-4 tracking-tighter"
-          >
-            <span className="inline-block bg-gradient-to-tr from-foreground via-accent to-beauty-pink bg-clip-text text-transparent drop-shadow-sm">LUXE</span>
-          </motion.h1>
-
-          {/* Subtitle with better typography */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mb-8"
-          >
-            <p className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-foreground/90 font-display">
-              Where Beauty Meets <span className="text-gradient-gold italic pr-2">Excellence</span>
-            </p>
-          </motion.div>
-
-          {/* Description with better spacing */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="text-lg md:text-xl lg:text-2xl max-w-2xl mx-auto text-muted-foreground/90 leading-relaxed font-light mb-12"
-          >
-            Experience premium hair and beauty services in an atmosphere of
-            sophistication and luxury. Where artistry meets innovation.
-          </motion.p>
-
-          {/* CTA with enhanced styling */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-8 pt-4"
-          >
-            <Link
-              href="#contact"
-              className="btn-gold-luxe px-12 py-4 rounded-full font-medium text-lg min-w-[240px]"
-            >
-              Book Your Experience
-            </Link>
-            <Link
-              href="#services"
-              className="group flex items-center gap-3 text-foreground/80 hover:text-accent font-medium text-sm md:text-base uppercase tracking-[0.2em] transition-colors duration-300"
-            >
-              Explore Services
-              <motion.span
-                className="inline-block"
-                whileHover={{ x: 5 }}
-                transition={{ duration: 0.3 }}
-              >
-                →
-              </motion.span>
-            </Link>
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Elegant scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2"
+    <>
+      <section
+        id="home"
+        className="relative min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden bg-[#0A080A] pt-24 pb-16 md:py-32"
       >
-        <motion.div
-          animate={{ y: [0, 12, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="flex flex-col items-center gap-3 text-muted-foreground"
-        >
-          <span className="text-sm font-light tracking-widest">SCROLL</span>
-          <div className="w-6 h-10 border border-muted-foreground/30 rounded-full flex justify-center p-2">
-            <motion.div
-              animate={{ y: [0, 12, 0], opacity: [1, 0, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-2 bg-accent rounded-full"
+        {/* Background Visual Layer */}
+        <div className="absolute inset-0 z-0">
+          {/* Hero luxury model visual cropped from design mockup */}
+          <div className="absolute inset-0 opacity-25 md:opacity-35 mix-blend-luminosity">
+            <Image
+              src="/images/instyle/hero-luxury-model.jpg"
+              alt="INSTYLE Hair & Beauty Model"
+              fill
+              priority
+              className="object-cover object-top filter contrast-125"
+              sizes="100vw"
             />
           </div>
-        </motion.div>
-      </motion.div>
-    </section>
+
+          {/* Deep dark luxury gradient vignette */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0A080A]/90 via-[#0A080A]/75 to-[#0A080A] z-10" />
+
+          {/* Radial ambient glow orbs */}
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-[#DF6882]/15 rounded-full blur-[120px] pointer-events-none z-10" />
+          <div className="absolute bottom-10 right-10 w-72 h-72 bg-[#D4AF37]/10 rounded-full blur-[100px] pointer-events-none z-10" />
+        </div>
+
+        {/* Hero Content Container */}
+        <div className="relative z-20 max-w-4xl mx-auto px-5 sm:px-6 text-center text-white flex flex-col items-center">
+          {/* Badge: • PREMIUM HAIR & BEAUTY SALON with BorderBeam */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-6 shadow-lg shadow-black/20"
+          >
+            <BorderBeam
+              size={120}
+              duration={10}
+              colorFrom="#DF6882"
+              colorTo="#F4A6B8"
+              borderWidth={1.5}
+            />
+            <span className="w-2 h-2 rounded-full bg-[#DF6882] animate-pulse" />
+            <span className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] uppercase text-white/90">
+              Premium Hair & Beauty Salon
+            </span>
+          </motion.div>
+
+          {/* Headline matching Mockup 1: INSTYLE */}
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.95] text-white"
+          >
+            <span className="text-gradient-rose">INSTYLE</span>
+          </motion.h1>
+
+          {/* Subtitle: Hair & Beauty Salon */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="font-display italic text-2xl sm:text-3xl md:text-4xl text-white/90 tracking-wide mt-2 mb-4 font-normal"
+          >
+            Hair & Beauty Salon
+          </motion.p>
+
+          {/* Location Badge: 📍 DC Court Junction, Dimapur */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.45 }}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#DF6882]/15 border border-[#DF6882]/30 text-white/90 text-xs sm:text-sm font-medium mb-6"
+          >
+            <MapPin className="w-3.5 h-3.5 text-[#DF6882]" />
+            <span>DC Court Junction, Dimapur</span>
+          </motion.div>
+
+          {/* Tagline Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+            className="max-w-xl text-sm sm:text-base md:text-lg text-white/75 font-light leading-relaxed mb-8 px-4"
+          >
+            {salonDetails.tagline}
+          </motion.p>
+
+          {/* Primary Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.6 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full max-w-md sm:max-w-none"
+          >
+            {/* WhatsApp Book Now Button */}
+            <button
+              onClick={() => setIsBookingOpen(true)}
+              className="w-full sm:w-auto btn-rose-instyle text-sm sm:text-base px-8 py-4 shadow-xl shadow-[#DF6882]/30 active:scale-95 transition-transform cursor-pointer"
+            >
+              <MessageCircle className="w-5 h-5 fill-current" />
+              <span>Book on WhatsApp</span>
+            </button>
+
+            {/* Our Services Button */}
+            <Link
+              href="#services"
+              className="w-full sm:w-auto btn-dark-glass text-sm sm:text-base px-8 py-4 cursor-pointer"
+            >
+              <Play className="w-4 h-4 fill-white text-white" />
+              <span>Our Services</span>
+            </Link>
+          </motion.div>
+
+          {/* Circular Category Navigation Pills (as featured in Mockup Screen 1) */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.75 }}
+            className="mt-12 sm:mt-16 w-full max-w-md pt-6 border-t border-white/10"
+          >
+            <div className="grid grid-cols-4 gap-3 sm:gap-6 justify-center">
+              {quickCategories.map((cat) => {
+                const Icon = cat.icon
+                return (
+                  <Link
+                    key={cat.label}
+                    href={cat.href}
+                    className="flex flex-col items-center gap-2 group cursor-pointer"
+                  >
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#1C161C] border border-white/10 group-hover:border-[#DF6882] flex items-center justify-center text-white/80 group-hover:text-[#DF6882] group-hover:bg-[#DF6882]/10 transition-all duration-300 shadow-lg group-hover:scale-105">
+                      <Icon className="w-6 h-6 transition-transform group-hover:rotate-6" />
+                    </div>
+                    <span className="text-xs sm:text-sm font-medium text-white/70 group-hover:text-white transition-colors">
+                      {cat.label}
+                    </span>
+                  </Link>
+                )
+              })}
+            </div>
+
+            {/* Scroll Down Chevron */}
+            <div className="flex justify-center mt-8">
+              <Link
+                href="#services"
+                className="text-white/40 hover:text-white transition-colors animate-bounce p-2"
+                aria-label="Scroll down to services"
+              >
+                <ChevronDown className="w-5 h-5" />
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Booking Modal */}
+      <WhatsAppBookingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
+    </>
   )
 }

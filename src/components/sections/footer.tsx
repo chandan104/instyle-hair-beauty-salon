@@ -1,194 +1,161 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Mail, Phone, MapPin, Instagram, Facebook } from "lucide-react"
+import { MapPin, Phone, Clock, Instagram, Heart, MessageCircle } from "lucide-react"
+import { salonDetails } from "@/lib/constants"
 
 export function Footer() {
-  const [email, setEmail] = useState("")
-  const [newsletterStatus, setNewsletterStatus] = useState<{
-    type: "success" | "error" | null
-    message: string
-  }>({ type: null, message: "" })
-  const [isSubscribing, setIsSubscribing] = useState(false)
-
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubscribing(true)
-    setNewsletterStatus({ type: null, message: "" })
-
-    try {
-      const response = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
-        setNewsletterStatus({
-          type: "success",
-          message: result.message || "Thank you for subscribing!",
-        })
-        setEmail("")
-      } else {
-        setNewsletterStatus({
-          type: "error",
-          message: result.error || "Failed to subscribe. Please try again.",
-        })
-      }
-    } catch (error) {
-      console.error("Newsletter error:", error)
-      setNewsletterStatus({
-        type: "error",
-        message: "Failed to subscribe. Please try again later.",
-      })
-    } finally {
-      setIsSubscribing(false)
-    }
-  }
+  const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="relative bg-background pt-24 pb-12 overflow-hidden border-t border-border">
-      {/* Decorative background gradients for visibility */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-beauty-pink/5 rounded-full blur-3xl pointer-events-none" />
+    <footer className="relative bg-[#080608] text-white pt-16 pb-24 md:pb-12 border-t border-white/10 overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#DF6882]/5 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="section-container relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 mb-20">
-          <div className="space-y-8">
-            <Link href="#home" className="inline-block group">
-              <h3 className="font-display text-4xl font-bold tracking-tighter text-gradient-aurora group-hover:opacity-80 transition-opacity">LUXE</h3>
-            </Link>
-            <p className="text-muted-foreground text-lg leading-relaxed max-w-xs font-light">
-              Crafting beauty through artistry and innovation. Our mission is to provide an unparalleled luxury experience for every client.
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            <h4 className="font-display text-xl font-semibold tracking-wide text-foreground">Quick Links</h4>
-            <ul className="space-y-4">
-              <li><Link href="#about" className="text-muted-foreground hover:text-accent transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-accent scale-0 group-hover:scale-100 transition-transform" />About Our Studio</Link></li>
-              <li><Link href="#services" className="text-muted-foreground hover:text-accent transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-accent scale-0 group-hover:scale-100 transition-transform" />Premium Services</Link></li>
-              <li><Link href="#gallery" className="text-muted-foreground hover:text-accent transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-accent scale-0 group-hover:scale-100 transition-transform" />Our Transformations</Link></li>
-              <li><Link href="#contact" className="text-muted-foreground hover:text-accent transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-accent scale-0 group-hover:scale-100 transition-transform" />Book Appointment</Link></li>
-            </ul>
-          </div>
-
-          <div className="space-y-6">
-            <h4 className="font-display text-xl font-semibold tracking-wide text-foreground">Contact Us</h4>
-            <ul className="space-y-5 text-muted-foreground">
-              <li className="flex items-start gap-4 group">
-                <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent shrink-0 mt-0.5 group-hover:bg-accent/20 transition-colors">
-                  <MapPin className="w-4 h-4" />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+          {/* Col 1: Brand */}
+          <div className="space-y-4">
+            <Link href="#home" className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#DF6882] to-[#D4AF37] p-[1px] flex items-center justify-center">
+                <div className="w-full h-full rounded-full bg-[#181216] flex items-center justify-center text-[#DF6882]">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-4 h-4"
+                  >
+                    <path d="M12 3c-1.5 3-4 6-4 9a4 4 0 0 0 8 0c0-3-2.5-6-4-9z" />
+                    <path d="M7 10c-2.5 1.5-4 4-4 6a4 4 0 0 0 7 2.5" />
+                    <path d="M17 10c2.5 1.5 4 4 4 6a4 4 0 0 1-7 2.5" />
+                  </svg>
                 </div>
-                <a
-                  href="https://www.google.com/maps/search/?api=1&query=123+Elegant+Avenue,+Luxury+District,+NY+10001"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-accent transition-colors"
-                >
-                  123 Elegant Avenue,<br />Luxury District, NY 10001
-                </a>
-              </li>
-              <li className="flex items-center gap-4 group">
-                <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent shrink-0 group-hover:bg-accent/20 transition-colors">
-                  <Phone className="w-4 h-4" />
-                </div>
-                <a
-                  href="tel:+15551234567"
-                  className="hover:text-accent transition-colors"
-                >
-                  (555) 123-4567
-                </a>
-              </li>
-              <li className="flex items-center gap-4 group">
-                <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent shrink-0 group-hover:bg-accent/20 transition-colors">
-                  <Mail className="w-4 h-4" />
-                </div>
-                <a
-                  href="mailto:hello@luxesalon.com"
-                  className="hover:text-accent transition-colors"
-                >
-                  hello@luxesalon.com
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="space-y-6">
-            <h4 className="font-display text-xl font-semibold tracking-wide text-foreground">Newsletter</h4>
-            <p className="text-muted-foreground font-light">Join our exclusive list for beauty tips and private offers.</p>
-            <form onSubmit={handleNewsletterSubmit} className="space-y-3">
-              <div className="relative group">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email address"
-                  required
-                  disabled={isSubscribing}
-                  className="w-full bg-muted/50 border border-border rounded-full py-4 pl-6 pr-12 text-sm text-foreground focus:outline-none focus:border-accent/50 transition-colors disabled:opacity-50"
-                />
-                <button
-                  type="submit"
-                  disabled={isSubscribing}
-                  className="absolute right-2 top-2 bottom-2 bg-foreground text-background px-4 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <span className="text-xs font-bold uppercase tracking-widest">
-                    {isSubscribing ? "..." : "Join"}
-                  </span>
-                </button>
               </div>
-              {newsletterStatus.type && (
-                <motion.p
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`text-xs ${newsletterStatus.type === "success"
-                    ? "text-green-600 dark:text-green-400"
-                    : "text-red-600 dark:text-red-400"
-                    }`}
+              <div>
+                <span className="font-display text-lg font-bold tracking-tight text-white block">
+                  INSTYLE
+                </span>
+                <span className="text-[9px] tracking-[0.2em] uppercase text-white/70 block">
+                  Hair & Beauty Salon
+                </span>
+              </div>
+            </Link>
+
+            <p className="text-white/65 text-xs sm:text-sm font-light leading-relaxed">
+              Professional hair, skin, nail and beauty services with a personal touch in Dimapur, Nagaland.
+            </p>
+
+            <div className="pt-1">
+              <a
+                href={salonDetails.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-white/80 transition-colors"
+              >
+                <Instagram className="w-3.5 h-3.5 text-pink-400" />
+                <span>@{salonDetails.instagramHandle}</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Col 2: Quick Links */}
+          <div className="space-y-4">
+            <h4 className="font-display text-sm font-bold tracking-wider uppercase text-white">
+              Quick Links
+            </h4>
+            <ul className="space-y-2.5 text-xs sm:text-sm text-white/70">
+              <li>
+                <Link href="#home" className="hover:text-[#DF6882] transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="#services" className="hover:text-[#DF6882] transition-colors">
+                  Our Services & Pricing
+                </Link>
+              </li>
+              <li>
+                <Link href="#gallery" className="hover:text-[#DF6882] transition-colors">
+                  Salon Gallery
+                </Link>
+              </li>
+              <li>
+                <Link href="#why-choose" className="hover:text-[#DF6882] transition-colors">
+                  Why Choose INSTYLE
+                </Link>
+              </li>
+              <li>
+                <Link href="#about" className="hover:text-[#DF6882] transition-colors">
+                  About Our Studio
+                </Link>
+              </li>
+              <li>
+                <Link href="#contact" className="hover:text-[#DF6882] transition-colors">
+                  Contact & Directions
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 3: Services */}
+          <div className="space-y-4">
+            <h4 className="font-display text-sm font-bold tracking-wider uppercase text-white">
+              Signature Services
+            </h4>
+            <ul className="space-y-2.5 text-xs sm:text-sm text-white/70">
+              <li>Hair Smoothing & Botox</li>
+              <li>Eyelash Extensions & Keratin Lift</li>
+              <li>Gold Chrome French & Gel Nails</li>
+              <li>6D Microblading & Brow Shading</li>
+              <li>Ash Tone Balayage & Hair Color</li>
+              <li>Bridal & Event HD Makeup</li>
+            </ul>
+          </div>
+
+          {/* Col 4: Location & Hours */}
+          <div className="space-y-4">
+            <h4 className="font-display text-sm font-bold tracking-wider uppercase text-white">
+              Visit Us
+            </h4>
+            <div className="space-y-3 text-xs sm:text-sm text-white/70 font-light">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-[#DF6882] shrink-0 mt-0.5" />
+                <span>
+                  DC Ct Rd, near petrol pump, Hill View Colony, Dimapur, Nagaland 797112
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <Clock className="w-4 h-4 text-[#DF6882] shrink-0" />
+                <span>10:00 AM – 7:00 PM (Mon: Closed)</span>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <Phone className="w-4 h-4 text-[#DF6882] shrink-0" />
+                <a
+                  href={`tel:${salonDetails.phoneDisplay.replace(/\s+/g, "")}`}
+                  className="hover:text-white transition-colors"
                 >
-                  {newsletterStatus.message}
-                </motion.p>
-              )}
-            </form>
+                  {salonDetails.phoneDisplay}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-muted-foreground text-sm font-light tracking-wide">
-            &copy; {new Date().getFullYear()} LUXE Salon. All rights reserved. Crafted with excellence.
+        {/* Bottom Credits Bar */}
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
+          <p>
+            © {currentYear} INSTYLE Hair & Beauty Salon. All rights reserved. Dimapur, Nagaland.
           </p>
-          <div className="flex items-center gap-8 text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
-            <Link href="#" className="hover:text-accent transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-accent transition-colors">Terms of Service</Link>
-            <div className="flex items-center gap-3">
-              <motion.a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ y: -3, scale: 1.1 }}
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-accent hover:border-accent transition-all duration-300"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5" />
-              </motion.a>
-              <motion.a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ y: -3, scale: 1.1 }}
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-accent hover:border-accent transition-all duration-300"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-5 h-5" />
-              </motion.a>
-            </div>
+          <div className="flex items-center gap-1">
+            <span>Crafted with</span>
+            <Heart className="w-3.5 h-3.5 text-[#DF6882] fill-current" />
+            <span>for INSTYLE Beauty Bar</span>
           </div>
         </div>
       </div>

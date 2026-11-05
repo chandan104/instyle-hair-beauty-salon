@@ -1,63 +1,42 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-body",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
-    default: "LUXE Salon | Premium Hair & Beauty",
-    template: "%s | LUXE Salon",
+    default: "INSTYLE Hair & Beauty Salon | Dimapur, Nagaland",
+    template: "%s | INSTYLE Hair & Beauty Salon Dimapur",
   },
   description:
-    "Experience premium hair and beauty services in an atmosphere of sophistication and luxury. Award-winning stylists, eco-friendly products, personalized service.",
+    "Premier beauty parlour & salon in Dimapur, Nagaland at DC Court Junction. Internationally certified hair dressing, hair smoothing & botox, 6D microblading, eyelash extensions, lash lift, and custom nail art.",
   keywords: [
-    "salon",
-    "hair",
-    "beauty",
-    "luxury",
-    "premium",
-    "hairdresser",
-    "styling",
-    "makeup",
+    "INSTYLE Hair & Beauty Salon",
+    "Dimapur salon",
+    "beauty parlour Dimapur Nagaland",
+    "hair smoothing Dimapur",
+    "eyelash extensions Dimapur",
+    "microblading Nagaland",
+    "nail art Dimapur",
+    "DC Court Junction salon",
+    "lash lift Dimapur",
   ],
-  authors: [{ name: "LUXE Salon" }],
-  creator: "LUXE Salon",
+  authors: [{ name: "INSTYLE Hair & Beauty Salon" }],
+  creator: "INSTYLE Hair & Beauty Salon",
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://luxesalon.com",
-    title: "LUXE Salon | Premium Hair & Beauty",
-    description: "Where Beauty Meets Excellence",
-    siteName: "LUXE Salon",
+    locale: "en_IN",
+    url: "https://instylebeautybar.com",
+    title: "INSTYLE Hair & Beauty Salon | Dimapur, Nagaland",
+    description: "Professional hair, skin, nail and beauty services with a personal touch at DC Court Junction, Dimapur.",
+    siteName: "INSTYLE Hair & Beauty Salon",
   },
   twitter: {
     card: "summary_large_image",
-    title: "LUXE Salon | Premium Hair & Beauty",
-    description: "Where Beauty Meets Excellence",
+    title: "INSTYLE Hair & Beauty Salon | Dimapur",
+    description: "Internationally Certified Hair Dresser, Permanent Makeup 6D, Lashes & Nails in Dimapur.",
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
 };
 
@@ -74,48 +53,45 @@ export default function RootLayout({
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BeautySalon",
-    name: "LUXE Salon",
-    description: "Premium hair and beauty services",
+    name: "INSTYLE Hair & Beauty Salon",
+    description: "Professional hair, skin, nail and beauty services with a personal touch.",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "123 Elegant Avenue",
-      addressLocality: "New York",
-      addressRegion: "NY",
-      postalCode: "10001",
-      addressCountry: "US",
+      streetAddress: "DC Ct Rd, near petrol pump, Hill View Colony",
+      addressLocality: "Dimapur",
+      addressRegion: "Nagaland",
+      postalCode: "797112",
+      addressCountry: "IN",
     },
-    telephone: "(555) 123-4567",
-    url: "https://luxesalon.com",
-    openingHours: [
-      "Mo-Fr 09:00-19:00",
-      "Sa 09:00-18:00",
-      "Su 10:00-17:00",
-    ],
-    priceRange: "$$$",
+    telephone: "089746 20709",
+    openingHours: ["Tu-Su 10:00-19:00"],
+    priceRange: "₹₹",
   };
 
   return (
-    <html lang="en" className={`${playfair.variable} ${poppins.variable}`} suppressHydrationWarning>
+    <html lang="en" className="dark font-body" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <meta name="theme-color" content="#0A080A" />
       </head>
-      <body className="min-h-screen antialiased bg-background text-foreground transition-colors duration-300">
-        <ScrollProgressBar />
-        <MotionProvider>
+      <body className="antialiased min-h-screen bg-[#0A080A] text-foreground font-body">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
           <SmoothScrollProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
+            <MotionProvider>
+              <ScrollProgressBar />
               {children}
-            </ThemeProvider>
+            </MotionProvider>
           </SmoothScrollProvider>
-        </MotionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

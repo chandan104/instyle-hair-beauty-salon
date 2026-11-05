@@ -1,386 +1,328 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { motion } from "framer-motion"
-import { ScrollReveal } from "@/components/animations/scroll-reveal"
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react"
+import {
+  MapPin,
+  Phone,
+  Clock,
+  Navigation,
+  MessageCircle,
+  Star,
+  Send,
+  Instagram,
+  ExternalLink,
+  Check,
+} from "lucide-react"
+import { salonDetails } from "@/lib/constants"
+import { WhatsAppBookingModal } from "@/components/ui/whatsapp-booking-modal"
 
 export function Contact() {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phone: "",
-    service: "",
+    service: "Hair Smoothing & Botox",
     message: "",
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<{
-    type: "success" | "error" | null
-    message: string
-  }>({ type: null, message: "" })
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
-    setSubmitStatus({ type: null, message: "" })
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
-        setSubmitStatus({
-          type: "success",
-          message: result.message || "Thank you for your request! We'll contact you soon.",
-        })
-        setFormData({ name: "", email: "", phone: "", service: "", message: "" })
-      } else {
-        setSubmitStatus({
-          type: "error",
-          message: result.error || "Failed to submit form. Please try again.",
-        })
-      }
-    } catch (error) {
-      console.error("Form submission error:", error)
-      setSubmitStatus({
-        type: "error",
-        message: "Failed to submit form. Please try again later.",
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    // Open directly in WhatsApp with prefilled inquiry
+    const msg = `Hi INSTYLE, I have an inquiry from your website.\n👤 Name: ${formData.name}\n📞 Phone: ${formData.phone}\n✨ Service: ${formData.service}\n💬 Message: ${formData.message}`
+    const url = `https://wa.me/${salonDetails.whatsappNumber}?text=${encodeURIComponent(msg)}`
+    window.open(url, "_blank")
+    setIsSubmitted(true)
   }
 
   return (
-    <section id="contact" className="py-32 bg-background dark:bg-black relative overflow-hidden transition-colors duration-500">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-accent/10 blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-beauty-pink/10 blur-3xl" />
-      </div>
+    <>
+      <section
+        id="contact"
+        className="py-20 md:py-32 bg-[#0C090C] text-white relative overflow-hidden"
+      >
+        {/* Ambient lighting */}
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#DF6882]/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-10 left-10 w-80 h-80 bg-[#D4AF37]/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="section-container relative z-10">
-        <ScrollReveal>
-          <div className="section-header">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+          {/* Header */}
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="section-tag text-accent"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#DF6882] text-xs font-semibold uppercase tracking-[0.25em] mb-4"
             >
-              Get In Touch
-            </motion.p>
+              <MapPin className="w-3.5 h-3.5" />
+              <span>Location & Appointments</span>
+            </motion.div>
+
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="section-title text-foreground dark:text-white"
+              className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3"
             >
-              Begin Your
-              <br />
-              <span className="text-gradient-gold">Transformation Journey</span>
+              Visit Our <span className="text-gradient-rose">Salon</span>
             </motion.h2>
+
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="section-description text-muted-foreground"
+              className="text-white/70 text-sm sm:text-base font-light leading-relaxed"
             >
-              Ready to experience the LUXE difference? Contact us today to schedule your appointment and let us create something beautiful together.
+              Located in Hill View Colony near DC Court Junction petrol pump in Dimapur.
             </motion.p>
           </div>
-        </ScrollReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          {/* Contact Information */}
-          <ScrollReveal direction="left" className="lg:col-span-5">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            {/* Left: Contact Info Cards & Map */}
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="glass-card p-8 md:p-10 h-full"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="lg:col-span-6 space-y-5"
             >
-              <h3 className="font-display text-3xl md:text-4xl font-semibold text-foreground dark:text-white mb-8">
-                Visit Our Studio
-              </h3>
-
-              <div className="space-y-8">
-                <motion.div
-                  whileHover={{ x: 10 }}
-                  className="flex items-start gap-4 group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-beauty-pink flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <MapPin className="w-6 h-6 text-white" />
-                  </div>
-                  <a href="https://www.google.com/maps/search/?api=1&query=123+Elegant+Avenue,+Downtown+District,+NY+10001" target="_blank" rel="noopener noreferrer">
-                    <div>
-                      <h4 className="font-medium text-foreground dark:text-white mb-2">Location</h4>
-                      <p className="text-muted-foreground">123 Elegant Avenue</p>
-                      <p className="text-muted-foreground">Downtown District, NY 10001</p>
-                    </div>
-                  </a>
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ x: 10 }}
-                  className="flex items-start gap-4 group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-beauty-pink flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Phone className="w-6 h-6 text-white" />
+              {/* Detailed Location Card */}
+              <div className="p-6 sm:p-7 rounded-3xl bg-[#141014]/85 border border-white/10 shadow-xl space-y-5">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#DF6882]/15 border border-[#DF6882]/30 flex items-center justify-center text-[#DF6882] shrink-0">
+                    <MapPin className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-foreground dark:text-white mb-2">Phone</h4>
-                    <a href="tel:+15551234567" className="text-muted-foreground hover:text-accent transition-colors">(555) 123-4567</a>
+                    <h3 className="font-display text-lg font-bold text-white mb-1">
+                      Salon Address
+                    </h3>
+                    <p className="text-white/75 text-xs sm:text-sm font-light leading-relaxed">
+                      {salonDetails.address}
+                    </p>
+                    <p className="text-[11px] text-[#DF6882] font-medium mt-1">
+                      Landmark: Near petrol pump, DC Court Junction
+                    </p>
                   </div>
-                </motion.div>
+                </div>
 
-                <motion.div
-                  whileHover={{ x: 10 }}
-                  className="flex items-start gap-4 group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-beauty-pink flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Mail className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-foreground dark:text-white mb-2">Email</h4>
-                    <a href="mailto:hello@luxesalon.com" className="text-muted-foreground hover:text-accent transition-colors">hello@luxesalon.com</a>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ x: 10 }}
-                  className="flex items-start gap-4 group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-beauty-pink flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Clock className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-foreground dark:text-white mb-2">Hours</h4>
-                    <p className="text-muted-foreground">Mon - Fri: 9am - 7pm</p>
-                    <p className="text-muted-foreground">Saturday: 9am - 6pm</p>
-                    <p className="text-muted-foreground">Sunday: 10am - 5pm</p>
-                  </div>
-                </motion.div>
-              </div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="mt-12 pt-8 border-t border-white/10"
-              >
-                <h4 className="font-medium text-foreground dark:text-white mb-4">Follow Us</h4>
-                <div className="flex gap-4">
-                  <motion.a
-                    href="https://instagram.com/yourprofile"
+                <div className="flex flex-wrap gap-2 pt-2">
+                  <a
+                    href={salonDetails.googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-accent/20 flex items-center justify-center transition-colors"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-semibold transition-all min-h-[44px]"
                   >
-                    <Image src="/images/Instagram_black.svg" alt="Instagram" width={24} height={24} className="text-zinc-400 hover:text-white" />
-                  </motion.a>
+                    <Navigation className="w-3.5 h-3.5" />
+                    <span>Get Directions on Google Maps</span>
+                  </a>
 
-                  <motion.a
-                    href="#"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-accent/20 flex items-center justify-center transition-colors"
+                  <a
+                    href="https://www.google.com/search?q=instyle+hair+and+beauty+salon+dimapur#lrd=0x37460773663b9f67:0x42f01f038d17ee3f,3,,,"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-xs font-semibold transition-all min-h-[44px]"
                   >
-                    <span className="text-xs text-zinc-400 hover:text-white">F</span>
-                  </motion.a>
-
-                  <motion.a
-                    href="#"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-accent/20 flex items-center justify-center transition-colors"
-                  >
-                    <span className="text-xs text-zinc-400 hover:text-white">P</span>
-                  </motion.a>
+                    <Star className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    <span>Write a Review</span>
+                  </a>
                 </div>
-              </motion.div>
-            </motion.div>
-          </ScrollReveal>
-
-          {/* Contact Form */}
-          <ScrollReveal direction="right" className="lg:col-span-7">
-            <motion.form
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              onSubmit={handleSubmit}
-              className="space-y-6"
-            >
-              {/* Status Messages */}
-              {submitStatus.type && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`p-4 rounded-2xl ${submitStatus.type === "success"
-                      ? "bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400"
-                      : "bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400"
-                    }`}
-                >
-                  {submitStatus.message}
-                </motion.div>
-              )}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <motion.div
-                  whileFocus={{ scale: 1.02 }}
-                  className="space-y-2"
-                >
-                  <label htmlFor="name" className="block text-sm font-medium text-muted-foreground">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-6 py-4 rounded-2xl bg-muted/50 border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all dark:bg-white/5 dark:border-white/10 dark:text-white"
-                    placeholder="Your name"
-                  />
-                </motion.div>
-
-                <motion.div
-                  whileFocus={{ scale: 1.02 }}
-                  className="space-y-2"
-                >
-                  <label htmlFor="email" className="block text-sm font-medium text-muted-foreground">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-6 py-4 rounded-2xl bg-muted/50 border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all dark:bg-white/5 dark:border-white/10 dark:text-white"
-                    placeholder="your@email.com"
-                  />
-                </motion.div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <motion.div
-                  whileFocus={{ scale: 1.02 }}
-                  className="space-y-2"
-                >
-                  <label htmlFor="phone" className="block text-sm font-medium text-muted-foreground">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-6 py-4 rounded-2xl bg-muted/50 border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all dark:bg-white/5 dark:border-white/10 dark:text-white"
-                    placeholder="(555) 123-4567"
-                  />
-                </motion.div>
+              {/* Hours & Phone Card */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Hours */}
+                <div className="p-5 rounded-3xl bg-[#141014]/85 border border-white/10 shadow-lg space-y-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-[#DF6882]">
+                      <Clock className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs uppercase tracking-wider text-white/60 font-semibold">
+                      Salon Hours
+                    </span>
+                  </div>
+                  <p className="font-display text-base font-bold text-white pt-1">
+                    {salonDetails.hours}
+                  </p>
+                  <p className="text-xs text-[#DF6882] font-medium">
+                    {salonDetails.closedDays}
+                  </p>
+                </div>
 
-                <motion.div
-                  whileFocus={{ scale: 1.02 }}
-                  className="space-y-2"
-                >
-                  <label htmlFor="service" className="block text-sm font-medium text-muted-foreground">
-                    Service
-                  </label>
-                  <select
-                    id="service"
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-6 py-4 rounded-2xl bg-muted/50 border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all appearance-none cursor-pointer dark:bg-white/5 dark:border-white/10 dark:text-white"
+                {/* Direct Phone */}
+                <div className="p-5 rounded-3xl bg-[#141014]/85 border border-white/10 shadow-lg space-y-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-emerald-400">
+                      <Phone className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs uppercase tracking-wider text-white/60 font-semibold">
+                      Direct Phone
+                    </span>
+                  </div>
+                  <a
+                    href={`tel:${salonDetails.phoneDisplay.replace(/\s+/g, "")}`}
+                    className="font-display text-base font-bold text-white block hover:text-[#DF6882] transition-colors pt-1"
                   >
-                    <option value="" className="bg-background text-muted-foreground">
-                      Select a service
-                    </option>
-                    <option value="cuts" className="bg-background text-foreground">
-                      Precision Cuts & Styling
-                    </option>
-                    <option value="color" className="bg-background text-foreground">
-                      Color Services
-                    </option>
-                    <option value="treatments" className="bg-background text-foreground">
-                      Hair Treatments
-                    </option>
-                    <option value="makeup" className="bg-background text-foreground">
-                      Makeup Artistry
-                    </option>
-                    <option value="blowout" className="bg-background text-foreground">
-                      Blowouts & Finishing
-                    </option>
-                    <option value="bridal" className="bg-background text-foreground">
-                      Bridal & Event Styling
-                    </option>
-                  </select>
-                </motion.div>
+                    {salonDetails.phoneDisplay}
+                  </a>
+                  <p className="text-xs text-white/50">Call or WhatsApp</p>
+                </div>
               </div>
 
-              <motion.div
-                whileFocus={{ scale: 1.02 }}
-                className="space-y-2"
-              >
-                <label htmlFor="message" className="block text-sm font-medium text-muted-foreground">
-                  Message (Optional)
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={5}
-                  className="w-full px-6 py-4 rounded-2xl bg-muted/50 border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all resize-none dark:bg-white/5 dark:border-white/10 dark:text-white"
-                  placeholder="Any special requests or questions?"
+              {/* Interactive Google Maps Embed */}
+              <div className="w-full h-64 sm:h-72 rounded-3xl overflow-hidden border border-white/15 shadow-xl relative bg-[#181318]">
+                <iframe
+                  title="INSTYLE Salon Dimapur Map"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3581.428585481747!2d93.7196016!3d25.8973678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x37460773663b9f67%3A0x42f01f038d17ee3f!2sInstyle%20hair%20and%20beauty%20salon!5e0!3m2!1sen!2sin!4v1741160000000!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
                 />
-              </motion.div>
+                <a
+                  href={salonDetails.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute bottom-3 right-3 px-3.5 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-xs font-semibold text-white hover:bg-black transition-colors flex items-center gap-1.5"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Open in Google Maps</span>
+                </a>
+              </div>
+            </motion.div>
 
-              <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                type="submit"
-                disabled={isSubmitting}
-                className="group w-full bg-gradient-to-r from-accent to-beauty-pink text-white py-5 rounded-2xl font-medium text-lg flex items-center justify-center gap-3 hover:shadow-[0_0_30px_rgba(202,138,4,0.5)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? (
-                  <>
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity }}
-                      className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+            {/* Right: Instant WhatsApp Message Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="lg:col-span-6"
+            >
+              <div className="p-6 sm:p-8 rounded-3xl bg-[#141014]/90 border border-white/10 shadow-2xl relative">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
+                  <div>
+                    <h3 className="font-display text-2xl font-bold text-white">
+                      Quick Inquiry
+                    </h3>
+                    <p className="text-xs text-white/60">
+                      Send a fast message directly to our WhatsApp
+                    </p>
+                  </div>
+
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <MessageCircle className="w-5 h-5 fill-current" />
+                  </div>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/80 mb-1.5">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Sentila"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      className="w-full px-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#DF6882] transition-colors placeholder:text-white/30"
                     />
-                    Submitting...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    Request Appointment
-                  </>
-                )}
-              </motion.button>
-            </motion.form>
-          </ScrollReveal>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/80 mb-1.5">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="e.g. 089746 20709"
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
+                      className="w-full px-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#DF6882] transition-colors placeholder:text-white/30"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/80 mb-1.5">
+                      Interested Service
+                    </label>
+                    <select
+                      value={formData.service}
+                      onChange={(e) =>
+                        setFormData({ ...formData, service: e.target.value })
+                      }
+                      className="w-full px-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#DF6882] transition-colors appearance-none cursor-pointer"
+                    >
+                      <option value="Hair Smoothing & Botox" className="bg-[#181318]">
+                        Hair Smoothing & Botox (From ₹3,500)
+                      </option>
+                      <option value="Eyelash Extensions" className="bg-[#181318]">
+                        Eyelash Extensions (From ₹1,500)
+                      </option>
+                      <option value="Nail Art & Extensions" className="bg-[#181318]">
+                        Nail Art & Extensions (From ₹800)
+                      </option>
+                      <option value="6D Microblading & Shading" className="bg-[#181318]">
+                        6D Microblading & Shading (From ₹4,500)
+                      </option>
+                      <option value="Balayage & Hair Color" className="bg-[#181318]">
+                        Ash Balayage & Hair Color (From ₹2,800)
+                      </option>
+                      <option value="Bridal & Event Makeup" className="bg-[#181318]">
+                        Bridal & Event Makeup (From ₹3,000)
+                      </option>
+                      <option value="General Consultation" className="bg-[#181318]">
+                        General Beauty Consultation
+                      </option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/80 mb-1.5">
+                      Your Message
+                    </label>
+                    <textarea
+                      rows={3}
+                      placeholder="Tell us what you would like or ask about timings and availability..."
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      className="w-full px-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#DF6882] transition-colors placeholder:text-white/30 resize-none"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-4 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-[#DF6882] to-[#C2455F] hover:from-[#E67891] hover:to-[#CE4E68] shadow-lg shadow-[#DF6882]/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer text-base min-h-[48px]"
+                  >
+                    <MessageCircle className="w-5 h-5 fill-current" />
+                    <span>Send via WhatsApp</span>
+                  </button>
+
+                  <p className="text-center text-[11px] text-white/50">
+                    Instantly redirects to WhatsApp chat with the salon owner at DC Court Junction.
+                  </p>
+                </form>
+              </div>
+            </motion.div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Booking Modal */}
+      <WhatsAppBookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
+    </>
   )
 }
