@@ -13,8 +13,6 @@ import {
   Eye,
   Heart,
   ChevronDown,
-  Clock,
-  ShieldCheck,
 } from "lucide-react"
 import { salonDetails } from "@/lib/constants"
 import { BorderBeam } from "@/components/ui/border-beam"
@@ -29,13 +27,6 @@ export function Hero() {
     { label: "Nails", icon: Heart, href: "#services?category=Nails" },
     { label: "Lashes", icon: Eye, href: "#services?category=Lashes" },
   ]
-
-  const handleWhatsAppDirect = () => {
-    const url = `https://wa.me/${salonDetails.whatsappNumber}?text=${encodeURIComponent(
-      "Hi INSTYLE, I would like to book an appointment."
-    )}`
-    window.open(url, "_blank")
-  }
 
   return (
     <>

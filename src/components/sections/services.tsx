@@ -8,7 +8,6 @@ import {
   ArrowRight,
   Clock,
   Sparkles,
-  Check,
   Star,
 } from "lucide-react"
 import { services, serviceCategories, salonDetails, ServiceItem } from "@/lib/constants"

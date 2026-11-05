@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Phone, MessageCircle, MapPin, Sparkles } from "lucide-react"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { Menu, X, Phone, MessageCircle, MapPin } from "lucide-react"
 import { salonDetails } from "@/lib/constants"
 import { WhatsAppBookingModal } from "@/components/ui/whatsapp-booking-modal"
 
@@ -57,7 +56,6 @@ export function Navbar() {
                   strokeLinejoin="round"
                   className="w-5 h-5 transition-transform duration-500 group-hover:scale-110"
                 >
-                  {/* Lotus emblem */}
                   <path d="M12 3c-1.5 3-4 6-4 9a4 4 0 0 0 8 0c0-3-2.5-6-4-9z" />
                   <path d="M7 10c-2.5 1.5-4 4-4 6a4 4 0 0 0 7 2.5" />
                   <path d="M17 10c2.5 1.5 4 4 4 6a4 4 0 0 1-7 2.5" />

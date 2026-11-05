@@ -1,17 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { MessageCircle, Phone, MapPin, Calendar } from "lucide-react"
+import { motion } from "framer-motion"
+import { MessageCircle, Phone, MapPin } from "lucide-react"
 import { salonDetails } from "@/lib/constants"
 import { WhatsAppBookingModal } from "@/components/ui/whatsapp-booking-modal"
 
 export function FloatingBottomBar() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const quickWhatsAppUrl = `https://wa.me/${salonDetails.whatsappNumber}?text=${encodeURIComponent(
-    "Hi INSTYLE, I would like to book an appointment."
-  )}`
 
   return (
     <>

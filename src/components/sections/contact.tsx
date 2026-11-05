@@ -9,10 +9,7 @@ import {
   Navigation,
   MessageCircle,
   Star,
-  Send,
-  Instagram,
   ExternalLink,
-  Check,
 } from "lucide-react"
 import { salonDetails } from "@/lib/constants"
 import { WhatsAppBookingModal } from "@/components/ui/whatsapp-booking-modal"
@@ -25,7 +22,6 @@ export function Contact() {
     message: "",
   })
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,7 +29,6 @@ export function Contact() {
     const msg = `Hi INSTYLE, I have an inquiry from your website.\n👤 Name: ${formData.name}\n📞 Phone: ${formData.phone}\n✨ Service: ${formData.service}\n💬 Message: ${formData.message}`
     const url = `https://wa.me/${salonDetails.whatsappNumber}?text=${encodeURIComponent(msg)}`
     window.open(url, "_blank")
-    setIsSubmitted(true)
   }
 
   return (

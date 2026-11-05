@@ -2,8 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { MessageCircle, MapPin, Clock, Calendar, Sparkles } from "lucide-react"
-import { salonDetails } from "@/lib/constants"
+import { MessageCircle, MapPin, Clock, Sparkles } from "lucide-react"
 import { WhatsAppBookingModal } from "@/components/ui/whatsapp-booking-modal"
 
 export function AppointmentBanner() {
@@ -33,7 +32,7 @@ export function AppointmentBanner() {
 
             <div className="relative z-10 max-w-xl mx-auto">
               <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/10 border border-white/15 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#F4A6B8] mb-4">
-                <Sparkles className="w-3 h-3" />
+                <Sparkles className="w-3.5 h-3.5" />
                 <span>Instant Confirmation</span>
               </span>
 

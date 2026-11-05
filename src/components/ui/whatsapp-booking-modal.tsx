@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Calendar, Clock, User, Phone, Sparkles, MessageCircle, Check } from "lucide-react"
+import { X, MessageCircle } from "lucide-react"
 import { services, salonDetails } from "@/lib/constants"
 
 interface WhatsAppBookingModalProps {

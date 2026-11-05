@@ -19,7 +19,6 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     qualities: [75, 80],
   },
-  // Experimental performance flags for that "no lag" feel
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react', 'lenis'],
   },

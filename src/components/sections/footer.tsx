@@ -1,8 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { motion } from "framer-motion"
-import { MapPin, Phone, Clock, Instagram, Heart, MessageCircle } from "lucide-react"
+import { MapPin, Phone, Clock, Instagram, Heart } from "lucide-react"
 import { salonDetails } from "@/lib/constants"
 
 export function Footer() {

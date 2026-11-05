@@ -1,8 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Star, Quote, Sparkles, CheckCircle2 } from "lucide-react"
-import { testimonials, salonDetails } from "@/lib/constants"
+import { Star, Sparkles } from "lucide-react"
+import { testimonials } from "@/lib/constants"
 
 export function Testimonials() {
   return (

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Gem, Leaf, Armchair, Heart, Sparkles, CheckCircle2 } from "lucide-react"
+import { Gem, Leaf, Armchair, Heart, Sparkles } from "lucide-react"
 
 export function WhyChoose() {
   const features = [
