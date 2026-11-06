@@ -15,156 +15,193 @@ import {
   ChevronDown,
 } from "lucide-react"
 import { salonDetails } from "@/lib/constants"
-import { BorderBeam } from "@/components/ui/border-beam"
 import { WhatsAppBookingModal } from "@/components/ui/whatsapp-booking-modal"
+
+// Custom luxury icons matching the design mockup in Image 5
+function NailPolishIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <rect x="9.5" y="2" width="5" height="7" rx="1.5" />
+      <path d="M6 9h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z" />
+      <path d="M9 15h6" />
+    </svg>
+  )
+}
+
+function LashesIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M3 10c3 4 8 5 9 5s6-1 9-5" />
+      <path d="M5.5 12.5l-2.5 3" />
+      <path d="M8.5 14l-1.5 3.5" />
+      <path d="M12 15v3.5" />
+      <path d="M15.5 14l1.5 3.5" />
+      <path d="M18.5 12.5l2.5 3" />
+    </svg>
+  )
+}
+
+function SkinIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <circle cx="12" cy="12" r="8" />
+      <path d="M9 11h.01" />
+      <path d="M15 11h.01" />
+      <path d="M9.5 14.5c.8.8 1.6 1.2 2.5 1.2s1.7-.4 2.5-1.2" />
+      <path d="M12 2v2" />
+      <path d="M12 20v2" />
+    </svg>
+  )
+}
 
 export function Hero() {
   const [isBookingOpen, setIsBookingOpen] = useState(false)
 
   const quickCategories = [
     { label: "Hair", icon: Scissors, href: "#services?category=Hair" },
-    { label: "Skin", icon: Sparkles, href: "#services?category=Skin" },
-    { label: "Nails", icon: Heart, href: "#services?category=Nails" },
-    { label: "Lashes", icon: Eye, href: "#services?category=Lashes" },
+    { label: "Skin", icon: SkinIcon, href: "#services?category=Skin" },
+    { label: "Nails", icon: NailPolishIcon, href: "#services?category=Nails" },
+    { label: "Lashes", icon: LashesIcon, href: "#services?category=Lashes" },
   ]
 
   return (
     <>
       <section
         id="home"
-        className="relative min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden bg-[#0A080A] pt-24 pb-16 md:py-32"
+        className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#0A080A] pt-20 pb-10 sm:py-28"
       >
-        {/* Background Visual Layer */}
-        <div className="absolute inset-0 z-0">
-          {/* Hero luxury model visual cropped from design mockup */}
-          <div className="absolute inset-0 opacity-25 md:opacity-35 mix-blend-luminosity">
-            <Image
-              src="/images/instyle/hero-luxury-model.jpg"
-              alt="INSTYLE Hair & Beauty Model"
-              fill
-              priority
-              className="object-cover object-top filter contrast-125"
-              sizes="100vw"
-            />
-          </div>
+        {/* Full-bleed clearly visible background image */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+          {/* High-res model image with full opacity and natural warm lighting */}
+          <Image
+            src="/images/instyle/hero-model-luxury.jpg"
+            alt="INSTYLE Hair & Beauty Model with Glossy Balayage Waves"
+            fill
+            priority
+            quality={95}
+            className="object-cover object-[center_20%] sm:object-[center_15%]"
+            sizes="100vw"
+          />
 
-          {/* Deep dark luxury gradient vignette */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0A080A]/90 via-[#0A080A]/75 to-[#0A080A] z-10" />
+          {/* Carefully tuned gradient: Upper half is virtually transparent so the model is 100% visible, smoothly darkens towards the bottom */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(10,8,10,0.02) 0%, rgba(10,8,10,0.08) 25%, rgba(10,8,10,0.40) 45%, rgba(10,8,10,0.80) 65%, rgba(10,8,10,0.96) 85%, #0A080A 100%)",
+            }}
+          />
 
-          {/* Radial ambient glow orbs */}
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-[#DF6882]/15 rounded-full blur-[120px] pointer-events-none z-10" />
-          <div className="absolute bottom-10 right-10 w-72 h-72 bg-[#D4AF37]/10 rounded-full blur-[100px] pointer-events-none z-10" />
+          {/* Subtle warm amber/rose ambient glow highlights */}
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#DF6882]/10 rounded-full blur-[140px] pointer-events-none" />
         </div>
 
-        {/* Hero Content Container */}
-        <div className="relative z-20 max-w-4xl mx-auto px-5 sm:px-6 text-center text-white flex flex-col items-center">
-          {/* Badge: • PREMIUM HAIR & BEAUTY SALON with BorderBeam */}
+        {/* Spacer for top padding */}
+        <div className="h-6 sm:h-12" />
+
+        {/* Content Container aligned exactly with Mockup */}
+        <div className="relative z-10 max-w-xl mx-auto px-5 sm:px-6 text-center text-white flex flex-col items-center">
+          {/* Badge: • PREMIUM HAIR & BEAUTY SALON */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-6 shadow-lg shadow-black/20"
+            className="inline-flex items-center gap-2 mb-3 drop-shadow-md"
           >
-            <BorderBeam
-              size={120}
-              duration={10}
-              colorFrom="#DF6882"
-              colorTo="#F4A6B8"
-              borderWidth={1.5}
-            />
-            <span className="w-2 h-2 rounded-full bg-[#DF6882] animate-pulse" />
-            <span className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] uppercase text-white/90">
-              Premium Hair & Beauty Salon
+            <span className="text-[11px] sm:text-xs font-semibold tracking-[0.35em] uppercase text-[#F7CAD0] drop-shadow-sm">
+              • Premium Hair &amp; Beauty Salon
             </span>
           </motion.div>
 
-          {/* Headline matching Mockup 1: INSTYLE */}
+          {/* Headline: INSTYLE (Bold serif luxury gradient) */}
           <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.95] text-white"
-          >
-            <span className="text-gradient-rose">INSTYLE</span>
-          </motion.h1>
-
-          {/* Subtitle: Hair & Beauty Salon */}
-          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="font-display italic text-2xl sm:text-3xl md:text-4xl text-white/90 tracking-wide mt-2 mb-4 font-normal"
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="font-display text-6xl sm:text-7xl md:text-8xl font-bold tracking-tight leading-[0.95] drop-shadow-lg"
           >
-            Hair & Beauty Salon
+            <span className="bg-gradient-to-r from-[#F9CAD2] via-[#FFFFFF] to-[#F9CAD2] bg-clip-text text-transparent">
+              INSTYLE
+            </span>
+          </motion.h1>
+
+          {/* Subtitle: Hair & Beauty Salon (Italic serif) */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="font-display italic text-2xl sm:text-3xl md:text-4xl text-[#F2D0D6] tracking-wide mt-1.5 mb-3.5 drop-shadow-md"
+          >
+            Hair &amp; Beauty Salon
           </motion.p>
 
           {/* Location Badge: 📍 DC Court Junction, Dimapur */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.45 }}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#DF6882]/15 border border-[#DF6882]/30 text-white/90 text-xs sm:text-sm font-medium mb-6"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white/90 text-xs sm:text-sm font-medium mb-4 shadow-sm"
           >
             <MapPin className="w-3.5 h-3.5 text-[#DF6882]" />
             <span>DC Court Junction, Dimapur</span>
           </motion.div>
 
-          {/* Tagline Description */}
+          {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="max-w-xl text-sm sm:text-base md:text-lg text-white/75 font-light leading-relaxed mb-8 px-4"
+            className="text-xs sm:text-sm md:text-base text-white/85 font-light leading-relaxed mb-7 max-w-md drop-shadow-sm"
           >
-            {salonDetails.tagline}
+            Professional hair, skin, nail and beauty services with a personal touch.
           </motion.p>
 
           {/* Primary Action Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full max-w-md sm:max-w-none"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-xs sm:max-w-none"
           >
-            {/* WhatsApp Book Now Button */}
+            {/* Book on WhatsApp (Solid Mauve / Rose Velvet matching Mockup) */}
             <button
               onClick={() => setIsBookingOpen(true)}
-              className="w-full sm:w-auto btn-rose-instyle text-sm sm:text-base px-8 py-4 shadow-xl shadow-[#DF6882]/30 active:scale-95 transition-transform cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-sm sm:text-base text-white bg-[#A34E65] hover:bg-[#B35870] active:scale-95 transition-all shadow-xl shadow-[#A34E65]/40 cursor-pointer min-h-[46px]"
             >
-              <MessageCircle className="w-5 h-5 fill-current" />
+              <MessageCircle className="w-4 h-4 fill-current" />
               <span>Book on WhatsApp</span>
             </button>
 
-            {/* Our Services Button */}
+            {/* Our Services (Translucent Dark Pill matching Mockup) */}
             <Link
               href="#services"
-              className="w-full sm:w-auto btn-dark-glass text-sm sm:text-base px-8 py-4 cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm sm:text-base text-white/90 bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md active:scale-95 transition-all cursor-pointer min-h-[46px]"
             >
-              <Play className="w-4 h-4 fill-white text-white" />
+              <Play className="w-3.5 h-3.5 fill-current text-white/90" />
               <span>Our Services</span>
             </Link>
           </motion.div>
 
-          {/* Circular Category Navigation Pills (as featured in Mockup Screen 1) */}
+          {/* Circular Category Navigation Pills (matching Mockup) */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.75 }}
-            className="mt-12 sm:mt-16 w-full max-w-md pt-6 border-t border-white/10"
+            className="mt-8 sm:mt-10 w-full max-w-xs sm:max-w-sm"
           >
-            <div className="grid grid-cols-4 gap-3 sm:gap-6 justify-center">
+            <div className="grid grid-cols-4 gap-3 justify-center">
               {quickCategories.map((cat) => {
                 const Icon = cat.icon
                 return (
                   <Link
                     key={cat.label}
                     href={cat.href}
-                    className="flex flex-col items-center gap-2 group cursor-pointer"
+                    className="flex flex-col items-center gap-1.5 group cursor-pointer"
                   >
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#1C161C] border border-white/10 group-hover:border-[#DF6882] flex items-center justify-center text-white/80 group-hover:text-[#DF6882] group-hover:bg-[#DF6882]/10 transition-all duration-300 shadow-lg group-hover:scale-105">
-                      <Icon className="w-6 h-6 transition-transform group-hover:rotate-6" />
+                    <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-black/40 backdrop-blur-md border border-[#DF6882]/30 group-hover:border-[#DF6882] flex items-center justify-center text-[#F7CAD0] group-hover:scale-105 group-hover:bg-[#DF6882]/20 transition-all shadow-md">
+                      <Icon className="w-5 h-5 stroke-[1.8]" />
                     </div>
-                    <span className="text-xs sm:text-sm font-medium text-white/70 group-hover:text-white transition-colors">
+                    <span className="text-[11px] sm:text-xs font-medium text-white/75 group-hover:text-white transition-colors">
                       {cat.label}
                     </span>
                   </Link>
@@ -173,13 +210,13 @@ export function Hero() {
             </div>
 
             {/* Scroll Down Chevron */}
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-center mt-5">
               <Link
                 href="#services"
-                className="text-white/40 hover:text-white transition-colors animate-bounce p-2"
+                className="text-white/40 hover:text-white transition-colors p-1"
                 aria-label="Scroll down to services"
               >
-                <ChevronDown className="w-5 h-5" />
+                <ChevronDown className="w-5 h-5 animate-bounce" />
               </Link>
             </div>
           </motion.div>

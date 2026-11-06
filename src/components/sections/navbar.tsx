@@ -35,11 +35,11 @@ export function Navbar() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-4 left-1/2 -translate-x-1/2 w-[94%] max-w-6xl z-50 transition-all duration-500 ${
+        className={`fixed top-2 sm:top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 transition-all duration-500 ${
           isScrolled
-            ? "py-3 px-5 sm:px-7 bg-[#120E12]/85 border-white/15 backdrop-blur-xl shadow-2xl shadow-black/40"
-            : "py-4 px-5 sm:px-8 bg-[#141014]/60 border-white/10 backdrop-blur-md"
-        } rounded-full border`}
+            ? "py-3 px-5 sm:px-7 bg-[#120E12]/90 border-white/15 backdrop-blur-xl shadow-2xl shadow-black/40 rounded-full border"
+            : "py-3 sm:py-4 px-4 sm:px-8 bg-black/20 sm:bg-[#141014]/40 border-white/10 backdrop-blur-sm sm:backdrop-blur-md rounded-full border"
+        }`}
       >
         <div className="flex items-center justify-between">
           {/* Brand Logo matching Mockup in Image 4 */}
